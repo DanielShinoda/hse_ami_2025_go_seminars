@@ -1,6 +1,12 @@
 package tasks
 
 // ReverseString переворачивает строку
-func ReverseString(_ string) string {
-	return ""
+func ReverseString(str string) string {
+	s := ""
+
+	for _, ch := range str {
+		s = string(ch) + s
+	}
+
+	return s
 }
