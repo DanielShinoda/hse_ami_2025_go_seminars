@@ -2,17 +2,17 @@ package tasks
 
 // CountVowels подсчитывает количество гласных в строке
 func CountVowels(s string) int {
-	all := map[rune]bool{
-		'a': true,
-		'A': true,
-		'e': true,
-		'E': true,
-		'i': true,
-		'I': true,
-		'o': true,
-		'O': true,
-		'u': true,
-		'U': true,
+	all := map[rune]struct{}{
+		'a': {},
+		'A': {},
+		'e': {},
+		'E': {},
+		'i': {},
+		'I': {},
+		'o': {},
+		'O': {},
+		'u': {},
+		'U': {},
 	}
 	total := 0
 	for _, c := range s {
