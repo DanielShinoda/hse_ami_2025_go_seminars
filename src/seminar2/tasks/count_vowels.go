@@ -1,6 +1,14 @@
 package tasks
 
-// CountVowels подсчитывает количество гласных в строке
-func CountVowels(_ string) int {
-	return 0
+func CountVowels(s1 string) int {
+	s2 := "aeiouyAEIOUY"
+	count := 0
+	for _, ch1 := range s1 {
+		for _, ch2 := range s2 {
+			if ch1 == ch2 {
+				count++
+			}
+		} 
+	}
+	return count
 }
