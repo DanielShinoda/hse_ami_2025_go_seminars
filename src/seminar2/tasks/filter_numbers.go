@@ -1,6 +1,11 @@
 package tasks
 
-// FilterNumbers фильтрует числа по условию
 func FilterNumbers(numbers []int, predicate func(int) bool) []int {
-	return numbers
+	res := []int{}
+	for _, n := range numbers {
+		if predicate(n) {
+			res = append(res, n)
+		}
+	}
+	return res
 }
