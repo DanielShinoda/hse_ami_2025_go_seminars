@@ -161,7 +161,7 @@ func (v *Vector[T]) PushBack(value T) {
 	if v.size == v.capacity {
 		v.reserve(v.growCapacity())
 	}
-	
+
 	if v.size < len(v.data) {
 		v.data[v.size] = value
 	} else {
@@ -198,7 +198,7 @@ func (v *Vector[T]) Insert(index int, value T) error {
 	if index < v.size {
 		copy(v.data[index+1:], v.data[index:v.size])
 	}
-	
+
 	v.data[index] = value
 	v.size++
 	return nil
@@ -234,7 +234,7 @@ func (v *Vector[T]) Resize(newSize int, value T) {
 	if newSize < 0 {
 		newSize = 0
 	}
-	
+
 	if newSize > v.capacity {
 		v.reserve(newSize)
 	}
@@ -265,7 +265,7 @@ func (v *Vector[T]) Assign(values ...T) {
 	if len(values) > v.capacity {
 		v.reserve(len(values))
 	}
-	
+
 	for i, value := range values {
 		if i < len(v.data) {
 			v.data[i] = value
