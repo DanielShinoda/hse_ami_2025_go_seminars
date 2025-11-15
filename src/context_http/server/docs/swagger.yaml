@@ -1,0 +1,211 @@
+openapi: 3.0.0
+info:
+  title: Card Deck API
+  description: Простой API для управления колодами карт
+  version: 1.0.0
+  contact:
+    name: API Support
+    url: http://www.swagger.io/support
+    email: support@swagger.io
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: http://localhost:8080/api/v1
+    description: Development server
+
+paths:
+  /decks:
+    post:
+      tags:
+        - decks
+      summary: Создать новую колоду
+      description: Создает новую колоду карт. Можно указать нужно ли перемешивать и какие карты включить.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateDeckRequest'
+      responses:
+        '200':
+          description: Успешное создание колоды
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateDeckResponse'
+        '400':
+          description: Неверный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /decks/{deckId}:
+    get:
+      tags:
+        - decks
+      summary: Получить колоду
+      description: Возвращает полную информацию о колоде включая карты
+      parameters:
+        - name: deckId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Deck'
+        '404':
+          description: Колода не найдена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /decks/{deckId}/draw:
+    post:
+      tags:
+        - decks
+      summary: Взять карты из колоды
+      description: Берет указанное количество карт из колоды
+      parameters:
+        - name: deckId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: count
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 1
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DrawCardsResponse'
+        '400':
+          description: Неверный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Колода не найдена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /decks/{deckId}/shuffle:
+    post:
+      tags:
+        - decks
+      summary: Перемешать колоду
+      description: Перемешивает карты в колоде
+      parameters:
+        - name: deckId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Успешное перемешивание
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  deck_id:
+                    type: string
+                    example: a251071b-662f-44b6-ba11-e24863039c59
+        '404':
+          description: Колода не найдена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  schemas:
+    Card:
+      type: object
+      properties:
+        value:
+          type: string
+          example: "A"
+        suit:
+          type: string
+          example: "SPADES"
+        code:
+          type: string
+          example: "AS"
+
+    Deck:
+      type: object
+      properties:
+        deck_id:
+          type: string
+          example: a251071b-662f-44b6-ba11-e24863039c59
+        shuffled:
+          type: boolean
+          example: false
+        remaining:
+          type: integer
+          example: 52
+        cards:
+          type: array
+          items:
+            $ref: '#/components/schemas/Card'
+
+    CreateDeckRequest:
+      type: object
+      properties:
+        shuffled:
+          type: boolean
+          example: false
+        cards:
+          type: array
+          items:
+            type: string
+          example: ["AS", "KD", "QH", "JC"]
+
+    CreateDeckResponse:
+      type: object
+      properties:
+        deck_id:
+          type: string
+          example: a251071b-662f-44b6-ba11-e24863039c59
+        shuffled:
+          type: boolean
+          example: false
+        remaining:
+          type: integer
+          example: 52
+
+    DrawCardsResponse:
+      type: object
+      properties:
+        cards:
+          type: array
+          items:
+            $ref: '#/components/schemas/Card'
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          example: "deck not found"
