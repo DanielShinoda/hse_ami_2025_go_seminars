@@ -4,8 +4,8 @@ type counter struct {
 	val int
 }
 
-func newCounter(ourVal int) *counter {
-	return &counter{val: ourVal}
+func newCounter(ourVl int) *counter {
+	return &counter{val: ourVl}
 }
 
 func (c *counter) Increment() {
