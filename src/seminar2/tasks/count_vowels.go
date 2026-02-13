@@ -1,6 +1,17 @@
 package tasks
 
-// CountVowels подсчитывает количество гласных в строке
-func CountVowels(_ string) int {
-	return 0
+import (
+	"strings"
+)
+
+const vowels = "aeiouAEIOU"
+
+func CountVowels(s string) int {
+	count := 0
+	for _, i := range s {
+		if strings.ContainsRune(vowels, i) {
+			count++
+		}
+	}
+	return count
 }
